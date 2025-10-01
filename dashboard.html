@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Calories Dashboard</h2>
+
+    <p><strong>Total Calories Today:</strong> {{ total_today }} kcal</p>
+    <p><strong>Daily Goal:</strong> {{ goal }}</p>
+    <p><strong>Remaining:</strong> {{ remaining }}</p>
+
+    <h3>Food Entries Today</h3>
+    {% if entries %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Food</th>
+                    <th>Quantity (g)</th>
+                    <th>Calories</th>
+                    <th>Eaten At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                <tr>
+                    <td>{{ entry.food.name }}</td>
+                    <td>{{ entry.quantity_g }}</td>
+                    <td>{{ entry.total_calories|floatformat:2 }}</td>
+                    <td>{{ entry.eaten_at|date:"H:i" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No entries for today yet.</p>
+    {% endif %}
+
+    <a href="{% url 'calories:add_entry' %}" class="btn btn-primary">Add Entry</a>
+</div>
+{% endblock %}
